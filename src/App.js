@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import AuthProvider from './context/AuthProvider';
 
-import  Login  from './pages/LoginPage';
+import  LoginPage  from './pages/LoginPage';
 import  Projects  from './pages/Projects';
 import  Profile  from './pages/Profile';
 import  MainHeader  from './components/MainHeader';
@@ -35,25 +35,23 @@ const theme = createMuiTheme({
 function App() {
   return (
     <MuiThemeProvider theme = {theme}>
-      <BrowserRouter>
         <AuthProvider>
-          <MainHeader />
-          <Switch>
-          <div className="container">
-            <Switch>
-              <Redirect exact from="/" to="/login" component={null}  />
-              <Route path="/login" component={Login} />
-              <PrivateRoute path="/profile">
-                <Profile />
-              </PrivateRoute>
-              <PrivateRoute>
-                <Projects path="/projects" />
-              </PrivateRoute>
-            </Switch>
-          </div>
-          </Switch>
+          <BrowserRouter>
+            <MainHeader />
+              <div className="container">
+              <Switch>
+                <Redirect exact from="/" to="/login" component={null}  />
+                <Route path="/login" component={LoginPage} />
+                <PrivateRoute path="/profile">
+                  <Profile />
+                </PrivateRoute>
+                <PrivateRoute>
+                  <Projects path="/projects" />
+                </PrivateRoute>
+              </Switch>
+              </div>
+            </BrowserRouter>
           </AuthProvider>
-      </BrowserRouter>
     </MuiThemeProvider>
   );
 }

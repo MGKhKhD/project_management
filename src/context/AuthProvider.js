@@ -3,19 +3,26 @@ import  AuthContext  from './AuthContex';
 
 class AuthProvider extends React.Component {
 
-    state = {
-        authenticated: false
+    constructor(props) {
+        super(props);
+        this.state = {
+            authenticated: false
+        };
     }
 
     componentDidMount = () => {
         this.handleAutoAuth();
     }
 
+    getDuration = (time) => {
+        let now = new Date();
+        let duration = time * 1000 + now.getTime();
+        return new Date(duration);
+    }
+
     handleLogin = (credentials) => {
         this.authTimer(credentials.expiresIn);
-        let now = new Date();
-        let duration = credentials.expiresIn * 1000 + now.getTime();
-        this.saveAuthData(credentials, new Date(duration));
+        this.saveAuthData(credentials, this.getDuration(credentials.expiresIn));
         this.setState({ authenticated: true });
     }
 
@@ -54,6 +61,7 @@ class AuthProvider extends React.Component {
     }
 
     handleAutoAuth = () => {
+        
         const userInfo = this.getCredentials();
         if (userInfo !== null) {
             const { token , duration, username, userId } = userInfo;
@@ -61,9 +69,12 @@ class AuthProvider extends React.Component {
                 
                 const reminedTime = (new Date(duration)).getTime() - (new Date()).getTime();
                 if (reminedTime > 0) {
+                    
                     this.authTimer(reminedTime / 1000);
-                    this.saveAuthData({token, username, id: userId}, new Date(reminedTime))
+                    const time = this.getDuration(reminedTime / 1000);
+                    localStorage.setItem('authDuration', time.toISOString());
                     this.setState({ authenticated: true });
+                    
                 }
             }
         }
