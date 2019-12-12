@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import AuthContex from '../context/AuthContex';
+
 import withStyles  from '@material-ui/core/styles/withStyles';
 
 import Grid from '@material-ui/core/Grid';
@@ -24,6 +26,7 @@ const styles = {
 }
 
 class Login extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -66,7 +69,9 @@ class Login extends Component {
         }).then(res => {
             return res.json();
         })
-        .then(data => console.log(data))
+        .then(data => {
+            return this.context.login(data.credentials);
+        })
         .catch(err => {
             console.log(err);
         });
@@ -132,6 +137,8 @@ class Login extends Component {
         )
     }
 }
+
+Login.contextType = AuthContex;
 
 Login.propTypes = {
     classes: PropTypes.object.isRequired

@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
+import AuthProvider from './context/AuthProvider';
+
 import  Login  from './pages/Login';
 import  Projects  from './pages/Projects';
 import  Profile  from './pages/Profile';
@@ -32,19 +34,21 @@ const theme = createMuiTheme({
 function App() {
   return (
     <MuiThemeProvider theme = {theme}>
-      <BrowserRouter>
-      <MainHeader />
-      <Switch>
-      <div className="container">
-        <Switch>
-          <Redirect exact from="/" to="/login" component={null}  />
-          <Route path="/login" component={Login} />
-          <Route path="/projects" component={Projects} />
-          <Route path="/profile" component={Profile} />
-        </Switch>
-      </div>
-      </Switch>
-    </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <MainHeader />
+          <Switch>
+          <div className="container">
+            <Switch>
+              <Redirect exact from="/" to="/login" component={null}  />
+              <Route path="/login" component={Login} />
+              <Route path="/projects" component={Projects} />
+              <Route path="/profile" component={Profile} />
+            </Switch>
+          </div>
+          </Switch>
+        </BrowserRouter>
+      </AuthProvider>
     </MuiThemeProvider>
   );
 }
