@@ -3,10 +3,11 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import AuthProvider from './context/AuthProvider';
 
-import  Login  from './pages/Login';
+import  Login  from './pages/LoginPage';
 import  Projects  from './pages/Projects';
 import  Profile  from './pages/Profile';
 import  MainHeader  from './components/MainHeader';
+import PrivateRoute from './components/PrivateRoute';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -34,21 +35,25 @@ const theme = createMuiTheme({
 function App() {
   return (
     <MuiThemeProvider theme = {theme}>
-      <AuthProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
           <MainHeader />
           <Switch>
           <div className="container">
             <Switch>
               <Redirect exact from="/" to="/login" component={null}  />
               <Route path="/login" component={Login} />
-              <Route path="/projects" component={Projects} />
-              <Route path="/profile" component={Profile} />
+              <PrivateRoute path="/profile">
+                <Profile />
+              </PrivateRoute>
+              <PrivateRoute>
+                <Projects path="/projects" />
+              </PrivateRoute>
             </Switch>
           </div>
           </Switch>
-        </BrowserRouter>
-      </AuthProvider>
+          </AuthProvider>
+      </BrowserRouter>
     </MuiThemeProvider>
   );
 }

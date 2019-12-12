@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import AuthContex from '../context/AuthContex';
-
 import withStyles  from '@material-ui/core/styles/withStyles';
 
 import Grid from '@material-ui/core/Grid';
@@ -70,7 +68,7 @@ class Login extends Component {
             return res.json();
         })
         .then(data => {
-            return this.context.login(data.credentials);
+            this.props.handlelogin(this.state.loginPage, data.credentials);
         })
         .catch(err => {
             console.log(err);
@@ -83,6 +81,7 @@ class Login extends Component {
 
     render () {
         const { classes } = this.props;
+        
 
         return (
             <Grid container className={classes.form}>
@@ -137,8 +136,6 @@ class Login extends Component {
         )
     }
 }
-
-Login.contextType = AuthContex;
 
 Login.propTypes = {
     classes: PropTypes.object.isRequired

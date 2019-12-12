@@ -20,6 +20,26 @@ exports.signupUser = async (req, res) => {
             username, email, password: hashedPass
         });
 
+        const token = await jwt.sign({
+            id: createdUser.id,
+            username: createdUser.username,
+            email: createdUser.email,
+            expirationTime: '2h'
+        }, 'secret_of_jwt', {expiresIn: '2h'});
+        if (!token) {
+            throw new Error('Something went wrong. Try again!');
+        }
+        res.status(200).json({
+            credentials: {
+                token,
+                email: createdUser.email,
+                username: createdUser.username,
+                id: createdUser.id,
+                expiresIn: 2*3600
+            },
+            message: 'Logged in successfully'
+        });
+
         res.status(201).json({
             user: {
                 id: createdUser.id,

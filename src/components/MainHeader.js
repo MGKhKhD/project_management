@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 import AuthContext from '../context/AuthContex';
 
@@ -8,6 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 
 const MainHeader = () => {
+    let history = useHistory();
     return (
         <AuthContext.Consumer>
             {context => (
@@ -17,7 +18,10 @@ const MainHeader = () => {
                     <Button color="inherit" component={NavLink} to="/projects">Project</Button>
                     <Button color="inherit" component={NavLink} to="/profile">Profile</Button>
                     {context.authenticated && <Button color="inherit" onClick={() =>
-                        context.logout()
+                        {
+                            history.push("/login");
+                            context.logout();
+                        }
                     }>Logout</Button>}
                 </Toolbar>
             </AppBar>
