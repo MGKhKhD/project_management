@@ -25,7 +25,7 @@ exports.signupUser = async (req, res) => {
         const token = await jwt.sign({
             id: createdUser.id,
             username: createdUser.username,
-            email: createdUser.email,
+            role: createdUser.role,
             expirationTime: '2h'
         }, 'secret_of_jwt', {expiresIn: '2h'});
         if (!token) {
@@ -34,19 +34,10 @@ exports.signupUser = async (req, res) => {
         res.status(200).json({
             credentials: {
                 token,
-                email: createdUser.email,
                 username: createdUser.username,
                 id: createdUser.id,
+                role: createdUser.role,
                 expiresIn: 2*3600
-            },
-            message: 'Logged in successfully'
-        });
-
-        res.status(201).json({
-            user: {
-                id: createdUser.id,
-                username: createdUser.username,
-                email: createdUser.email
             },
             message: 'User is signed up'
         });
@@ -73,7 +64,7 @@ exports.loginUser = async (req, res) => {
         const token = await jwt.sign({
             id: existingUser.id,
             username: existingUser.username,
-            email: existingUser.email,
+            role: existingUser.role,
             expirationTime: '2h'
         }, 'secret_of_jwt', {expiresIn: '2h'});
         if (!token) {
@@ -82,9 +73,9 @@ exports.loginUser = async (req, res) => {
         res.status(200).json({
             credentials: {
                 token,
-                email: existingUser.email,
                 username: existingUser.username,
                 id: existingUser.id,
+                role: existingUser.role,
                 expiresIn: 2*3600
             },
             message: 'Logged in successfully'

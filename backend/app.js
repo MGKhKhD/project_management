@@ -9,6 +9,12 @@ app.use(cors());
 const usersRoutes = require('./routes/users');
 app.use('/api/users', usersRoutes);
 
+const authMiddleware = require('./middlewares/auth');
+const adminMiddleware = require('./middlewares/admin');
+
+const adminRoutes = require('./routes/admin');
+app.use('/api/admin', authMiddleware, adminMiddleware, adminRoutes);
+
 const models = require('./models/index');
 models.sequelize
 .authenticate()

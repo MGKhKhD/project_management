@@ -25,9 +25,20 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: true
         },
-        confirmed: {
+        confirmedPassword: {
             type: Sequelize.BOOLEAN,
             allowNull: true,
+            defaultValue: 0
+        },
+        role: {
+            type: Sequelize.ENUM('admin', 'regular'),
+            allowNull: false,
+            defaultValue: 'regular',
+        },
+        confirmedUser: {
+            type: Sequelize.BOOLEAN,
+            allowNull: true,
+            defaultValue: 0,
         },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
@@ -43,19 +54,38 @@ module.exports = (sequelize, Sequelize) => {
         });
         User.belongsToMany(models.Project, {
             through: 'user_project_lead_member',
-            foreignKey: {name: 'projectId', field: 'project_id'}
+            foreignKey: {
+                name: 'userId',
+                field: 'user_id',
+            }
         });
         User.belongsToMany(models.Project, {
             through: 'user_project_dev_member',
-            foreignKey: {name: 'projectId', field: 'project_id'}
+            foreignKey: {
+                name: 'userId',
+                field: 'user_id',
+            }
         });
         User.belongsToMany(models.Task, {
             through: 'user_task_creator_member',
-            foreignKey: {name: 'taskId', field: 'task_id'}
+            foreignKey: {
+                name: 'userId',
+                field: 'user_id',
+            }
         });
         User.belongsToMany(models.Task, {
             through: 'user_task_dev_member',
-            foreignKey: {name: 'taskId', field: 'task_id'}
+            foreignKey: {
+                name: 'userId',
+                field: 'user_id',
+            }
+        });
+        User.belongsToMany(models.Channel, {
+            through: 'user_channel_member',
+            foreignKey: {
+                name: 'userId',
+                field: 'user_id',
+            }
         });
     };
 

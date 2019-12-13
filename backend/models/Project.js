@@ -25,6 +25,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.DATE,
             allowNull: false
         },
+        public: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: 1
+        },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
     });

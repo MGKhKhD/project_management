@@ -1,8 +1,9 @@
 
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('project_management', 'Mohammad', 'Mohammad', {host: '127.0.0.1',
-dialect: 'mysql'});
+const sequelize = new Sequelize('project_management', 'Mohammad', 'Mohammad', 
+                                {host: '127.0.0.1',
+                                dialect: 'mysql'});
 
 const models = {
     User: sequelize.import('./User'),
