@@ -1,9 +1,11 @@
-const User = require('../models/User');
-const Sequelize = require('sequelize');
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const Op = Sequelize.Op;
+const models = require('../models/index');
+const User = models.User;
+
+const Op = models.Sequelize.Op;
 
 exports.signupUser = async (req, res) => {
     const { username, email, password } = req.body;
