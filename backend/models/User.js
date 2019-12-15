@@ -11,24 +11,43 @@ module.exports = (sequelize, Sequelize) => {
         username: {
             type: Sequelize.STRING(30),
             unique: true,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isAlphanumeric: {
+                    args: true,
+                    msg: 'The username can only contain letters and numbers'
+                },
+                len: {
+                    args: [3, 30],
+                    msg: 'The username must be between 3 and 30 characters long'
+                }
+            }
         },
         email: {
             type: Sequelize.STRING,
             allowNull: false,
             validate: {
-                isEmail: true
+                isEmail: {
+                    args: true,
+                    msg: 'Invalid email'
+                }
             },
             unique: true
         },
         password: {
             type: Sequelize.STRING,
-            allowNull: true
+            allowNull: true,
+            validate: {
+                len: {
+                    args: [5, 100],
+                    msg: 'Password must be between 5 and 100 characters long'
+                }
+            }
         },
         confirmedPassword: {
             type: Sequelize.BOOLEAN,
             allowNull: true,
-            defaultValue: 0
+            defaultValue: false
         },
         role: {
             type: Sequelize.ENUM('admin', 'regular'),
@@ -38,7 +57,7 @@ module.exports = (sequelize, Sequelize) => {
         confirmedUser: {
             type: Sequelize.BOOLEAN,
             allowNull: true,
-            defaultValue: 0,
+            defaultValue: false,
         },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
@@ -46,35 +65,21 @@ module.exports = (sequelize, Sequelize) => {
 
     User.associate = (models) => {
         User.belongsToMany(models.Team, {
-            through: 'user_team_member',
+            through: models.UserTeamMember,
             foreignKey: {
                 name: 'userId',
                 field: 'user_id',
             }
         });
         User.belongsToMany(models.Project, {
-            through: 'user_project_lead_member',
-            foreignKey: {
-                name: 'userId',
-                field: 'user_id',
-            }
-        });
-        User.belongsToMany(models.Project, {
-            through: 'user_project_dev_member',
+            through: models.UserProjectMember,
             foreignKey: {
                 name: 'userId',
                 field: 'user_id',
             }
         });
         User.belongsToMany(models.Task, {
-            through: 'user_task_creator_member',
-            foreignKey: {
-                name: 'userId',
-                field: 'user_id',
-            }
-        });
-        User.belongsToMany(models.Task, {
-            through: 'user_task_dev_member',
+            through: models.UserTaskMember,
             foreignKey: {
                 name: 'userId',
                 field: 'user_id',

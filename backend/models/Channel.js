@@ -11,11 +11,21 @@ module.exports = (sequelize, Sequelize) => {
         name: {
             type: Sequelize.STRING(30),
             unique: true,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isAlphanumeric: {
+                    args: true,
+                    msg: 'channel can only contain letters and numbers'
+                },
+                len: {
+                    args: [5, 30],
+                    msg: 'channel must be between 3 and 30 characters long'
+                }
+            }
         },
         public: {
             type: Sequelize.BOOLEAN,
-            defaultValue: 1
+            defaultValue: true
         },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE

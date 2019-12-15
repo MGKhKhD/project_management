@@ -20,7 +20,7 @@ models.sequelize
 .authenticate()
 .then(() => {
   console.log('Connection has been established successfully.');
-  // models.sequelize.sync().then(() => {
+  // models.sequelize.sync({force: true}).then(() => {
   //   console.log('models created correctly');
   // });
 })

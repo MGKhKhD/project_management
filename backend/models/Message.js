@@ -10,6 +10,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         text: {
             type: Sequelize.TEXT,
+            allowNull: false
         },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE

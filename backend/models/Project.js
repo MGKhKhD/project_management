@@ -38,18 +38,8 @@ module.exports = (sequelize, Sequelize) => {
             foreignKey: {name: 'teamId', field: 'team_id'}
         });
         Project.belongsToMany(models.User, {
-            through: 'user_project_lead_member',
+            through: models.UserProjectMember,
             foreignKey: {name: 'projectId', field: 'project_id'}
-        });
-        Project.belongsToMany(models.User, {
-            through: 'user_project_dev_member',
-            foreignKey: {name: 'projectId', field: 'project_id'}
-        });
-        Project.belongsTo(models.User, {
-            foreignKey: 'lead'
-        });
-        Project.belongsTo(models.User, {
-            foreignKey: 'developer'
         });
     };
 

@@ -20,6 +20,7 @@ module.exports = (sequelize, Sequelize) => {
         status: {
             type: Sequelize.ENUM('done', 'active', 'pending', 'archived', 'overdue'),
             allowNull: false,
+            defaultValue: 'active'
         },
         deadline: {
             type: Sequelize.DATE,
@@ -31,18 +32,8 @@ module.exports = (sequelize, Sequelize) => {
 
     Task.associate = (models) => {
         Task.belongsToMany(models.User, {
-            through: 'user_task_dev_member',
+            through: models.UserTaskMember,
             foreignKey: {name: 'taskId', field: 'task_id'}
-        });
-        Task.belongsToMany(models.User, {
-            through: 'user_task_creator_member',
-            foreignKey: {name: 'taskId', field: 'task_id'}
-        });
-        Task.belongsTo(models.User, {
-            foreignKey: 'creator'
-        });
-        Task.belongsTo(models.User, {
-            foreignKey: 'developer'
         });
         Task.belongsTo(models.Project, {
             foreignKey: {name: 'projectId', field: 'project_id'}
