@@ -31,6 +31,7 @@ class AuthProvider extends React.Component {
         localStorage.removeItem('authDuration');
         localStorage.removeItem('username');
         localStorage.removeItem('userId');
+        localStorage.removeItem('role');
         this.setState({authenticated: false});
         clearTimeout(this.tokenTimer);
     }
@@ -40,6 +41,7 @@ class AuthProvider extends React.Component {
         localStorage.setItem('authDuration', duration.toISOString());
         localStorage.setItem('username', credentials.username);
         localStorage.setItem('userId', credentials.id);
+        localStorage.setItem('role', credentials.role? credentials.role : 'regular');
     }
 
     authTimer = (duration) => {

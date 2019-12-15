@@ -2,12 +2,15 @@ import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import AuthProvider from './context/AuthProvider';
+import AdminProvider from './context/AdminProvider';
 
 import  LoginPage  from './pages/LoginPage';
-import  Projects  from './pages/Projects';
-import  Profile  from './pages/Profile';
+import  MessagePage  from './pages/MessagePage';
+import  UserDashboard  from './pages/UserDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import  MainHeader  from './components/MainHeader';
 import PrivateRoute from './components/PrivateRoute';
+import AdminRoute from './components/AdminRoute';
 
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -36,22 +39,27 @@ function App() {
   return (
     <MuiThemeProvider theme = {theme}>
         <AuthProvider>
-          <BrowserRouter>
+          <AdminProvider>
+            <BrowserRouter>
             <MainHeader />
               <div className="container">
               <Switch>
                 <Redirect exact from="/" to="/login" component={null}  />
                 <Route path="/login" component={LoginPage} />
-                <PrivateRoute path="/profile">
-                  <Profile />
+                <AdminRoute path="/admindashboard">
+                    <AdminDashboard />
+                </AdminRoute>
+                <PrivateRoute path="/userdashboard">
+                  <UserDashboard />
                 </PrivateRoute>
-                <PrivateRoute>
-                  <Projects path="/projects" />
+                <PrivateRoute path="/messages" >
+                  <MessagePage />
                 </PrivateRoute>
               </Switch>
               </div>
             </BrowserRouter>
-          </AuthProvider>
+          </AdminProvider>  
+        </AuthProvider>
     </MuiThemeProvider>
   );
 }
